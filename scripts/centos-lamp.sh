@@ -33,4 +33,7 @@ grep 'temporary password' /var/log/mysqld.log
 #mysqld 
 
 # Download Starter Content
+cd /vagrant 
+sudo -u vagrant wget -q https://raw.githubusercontent.com/nygamichal/vagrantMaterials/main/files/index.html
+sudo -u vagrant wget -q https://raw.githubusercontent.com/nygamichal/vagrantMaterials/main/files/info.php
 service httpd restart
