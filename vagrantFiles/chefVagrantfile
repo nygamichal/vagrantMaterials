@@ -1,0 +1,37 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  config.vm.box = "learningchef/centos65"
+  config.vbguest.auto_update = false
+
+  config.vm.provision "file", source: "C:\\gitLab\\udemy\\vagrantMaterials\\files\\git-config", destination: "./.gitconfig"
+
+  config.vm.provision "shell", path: "https://raw.githubusercontent.com/nygamichal/vagrantMaterials/main/scripts/centos-common.sh"
+
+  config.omnibus.chef_version = :latest
+
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+
+  config.vm.provider "virtualbox" do |vb|
+  #   # Customize the amount of memory on the VM:
+     vb.memory = "1024"
+      #vb.customize ["modifyvm", :id, "--memory", "1024"]
+   end
+  
+   config.vm.provision "chef_solo" do |chef|
+     chef.cookbooks_path = "C:\\gitLab\\udemy\\vagrantMaterials\\chef\\supermarket"
+     #check.roles_path = "../my-recipes/roles"
+     chef.add_recipe "java"
+     #chef.add_role "web"
+     chef.json = { 
+     "java" => {
+        "jdk_version" => "7"
+     }  
+    }
+   end
+end
